@@ -1,3 +1,5 @@
 ---
-# roles/<role_name>/tasks/main.yml
-- meta: noop
+# roles/dummy_role/tasks/main.yml
+- name: Emit a metrics event (fake)
+  ansible.builtin.debug:
+    msg: "dummy_role has executed"

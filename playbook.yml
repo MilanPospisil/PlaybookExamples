@@ -19,11 +19,6 @@
         gather_subset: "!all"
       changed_when: false
 
-    - name: Stat /etc (ansible.posix.stat)
-      ansible.posix.stat:
-        path: /etc
-      changed_when: false
-
     - name: List installed packages (community.general.package_facts)
       community.general.package_facts:
       changed_when: false

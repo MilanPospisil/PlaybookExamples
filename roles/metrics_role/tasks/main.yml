@@ -1,5 +1,0 @@
----
-# roles/metrics_role/tasks/main.yml
-- name: Emit a metrics event (fake)
-  ansible.builtin.debug:
-    msg: "metrics_role has executed"

@@ -6,3 +6,4 @@
 
   roles:
     - name: acme.role1
+    - name: my_namespace.my_collection.echo_role

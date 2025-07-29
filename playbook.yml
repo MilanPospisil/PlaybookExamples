@@ -1,29 +1,8 @@
-- name: No‑Op Metrics Collection Playbook (Resolved Roles)
+---
+- name: Apply ACME roles to all hosts
   hosts: all
-  gather_facts: false
+  become: yes
+  gather_facts: true
 
-  tasks:
-    - name: Include dummy role
-      ansible.builtin.import_role:
-        name: dummy_role
-
-    - name: Include metrics role
-      ansible.builtin.import_role:
-        name: metrics_role
-
-    - name: Gather minimal facts (setup module)
-      ansible.builtin.setup:
-        gather_subset: "!all"
-      changed_when: false
-
-    - name: Ping back (ping module)
-      ansible.builtin.ping:
-      register: ping_result
-
-    - name: Debug ping result
-      ansible.builtin.debug:
-        var: ping_result
-
-    - name: Debug completion message (debug module)
-      ansible.builtin.debug:
-        msg: "No‑op task completed – for metrics only"
+  roles:
+    - name: acme.role1

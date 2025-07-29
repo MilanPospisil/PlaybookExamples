@@ -1,13 +1,17 @@
 ---
-- name: No‑Op Metrics Collection Playbook
+- name: No‑Op Metrics Collection Playbook (Resolved Roles)
   hosts: all
-  gather_facts: false
-
-  roles:
-    - dummy_role
-    - metrics_role
+  gather_facts: true
 
   tasks:
+    - name: Include dummy role
+      ansible.builtin.import_role:
+        name: my_namespace.dummy_role
+
+    - name: Include metrics role
+      ansible.builtin.import_role:
+        name: my_namespace.metrics_role
+
     - name: Gather minimal facts (setup module)
       ansible.builtin.setup:
         gather_subset: "!all"

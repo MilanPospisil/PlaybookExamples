@@ -1,4 +1,5 @@
-- name: Dummy No‑Op Metrics Collection Playbook
+---
+- name: No‑Op Metrics Collection Playbook
   hosts: all
   gather_facts: false
 
@@ -6,41 +7,20 @@
     - dummy_role
     - metrics_role
 
-  pre_tasks:
-    - name: Gather minimal facts (no real facts)
-      ansible.builtin.setup:
-        gather_subset:
-          - "!all"
-      changed_when: false
-
   tasks:
-    - name: List installed packages
-      ansible.builtin.package_facts:
+    - name: Gather minimal facts (setup module)
+      ansible.builtin.setup:
+        gather_subset: "!all"
       changed_when: false
 
-    - name: List available AES‑256‑CBC ciphers via openssl
-      ansible.builtin.shell: "openssl ciphers -v 'AES-256-CBC'"
-      register: cipher_list
-      changed_when: false
+    - name: Ping back (ping module)
+      ansible.builtin.ping:
+      register: ping_result
 
-    - name: Show cipher list
+    - name: Debug ping result
       ansible.builtin.debug:
-        var: cipher_list.stdout_lines
+        var: ping_result
 
-    - name: No‑Op via meta
-      meta: noop
-
-    - name: Command no‑op
-      ansible.builtin.command: /bin/true
-      changed_when: false
-
-    - name: Shell no‑op
-      ansible.builtin.shell: |
-        :
-      changed_when: false
-
-    - name: Final debug message
+    - name: Debug completion message (debug module)
       ansible.builtin.debug:
-        msg: "No‑op tasks complete – metrics only"
-
-
+        msg: "No‑op task completed – for metrics only"

@@ -1,0 +1,4 @@
+---
+- name: Emit a metrics event (fake)
+  ansible.builtin.debug:
+    msg: "dummy role has executed"

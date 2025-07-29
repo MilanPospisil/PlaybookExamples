@@ -14,44 +14,39 @@
     - metrics_role
 
   tasks:
-    - name: 1. Gather minimal facts (ansible.builtin.setup)
+    - name: Gather minimal facts (ansible.builtin.setup)
       ansible.builtin.setup:
         gather_subset: "!all"
       changed_when: false
 
-    - name: 2. Check reachability (community.general.ping)
-      community.general.ping:
-      register: ping_result
-      changed_when: false
-
-    - name: 3. Stat /etc (ansible.posix.stat)
+    - name: Stat /etc (ansible.posix.stat)
       ansible.posix.stat:
         path: /etc
       changed_when: false
 
-    - name: 4. List installed packages (community.general.package_facts)
+    - name: List installed packages (community.general.package_facts)
       community.general.package_facts:
       changed_when: false
 
-    - name: 5. List available ciphers (community.crypto.openssl_cipher)
+    - name: List available ciphers (community.crypto.openssl_cipher)
       community.crypto.openssl_cipher:
         cipher: aes-256-cbc
         state: list
       changed_when: false
 
-    - name: 6. No‑Op via meta
+    - name: No‑Op via meta
       meta: noop
 
-    - name: 7. Command no‑op (ansible.builtin.command)
+    - name: Command no‑op (ansible.builtin.command)
       ansible.builtin.command: /bin/true
       changed_when: false
 
-    - name: 8. Shell no‑op (ansible.builtin.shell)
+    - name: Shell no‑op (ansible.builtin.shell)
       ansible.builtin.shell: |
         :
       changed_when: false
 
-    - name: 9. Debug message (ansible.builtin.debug)
+    - name: Debug message (ansible.builtin.debug)
       ansible.builtin.debug:
         msg: "No‑op tasks complete – metrics only"
 

@@ -1,0 +1,4 @@
+---
+- name: Echo a message
+  ansible.builtin.debug:
+    msg: "Hello from my_namespace.my_collection.echo_role!"

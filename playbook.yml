@@ -1,0 +1,41 @@
+---
+- name: No‑Op Metrics Collection Playbook
+  hosts: all
+  gather_facts: false
+
+  # Include a couple of roles (you can stub these out with empty tasks/main.yml)
+  roles:
+    - dummy_role
+    - metrics_role
+
+  tasks:
+
+    - name: 1. Gather minimal facts (setup module)
+      ansible.builtin.setup:
+        gather_subset: "!all"    # skip most facts
+      changed_when: false
+
+    - name: 2. Ping back (ping module)
+      ansible.builtin.ping:
+      register: ping_result
+
+    - name: 3. Stat a known file (stat module)
+      ansible.builtin.stat:
+        path: /tmp
+      changed_when: false
+
+    - name: 4. No‑Op via meta noop
+      meta: noop
+
+    - name: 5. Command no‑op (command module)
+      ansible.builtin.command: /bin/true
+      changed_when: false
+
+    - name: 6. Shell no‑op (shell module)
+      ansible.builtin.shell: |
+        :
+      changed_when: false
+
+    - name: 7. Debug message (debug module)
+      ansible.builtin.debug:
+        msg: "No‑op task completed – for metrics only"

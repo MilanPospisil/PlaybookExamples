@@ -1,47 +1,46 @@
----
-- name: No‑Op Metrics Collection Playbook
+- name: Dummy No‑Op Metrics Collection Playbook
   hosts: all
   gather_facts: false
-
-  collections:
-    - ansible.builtin
-    - community.general
-    - ansible.posix
-    - community.crypto
 
   roles:
     - dummy_role
     - metrics_role
 
-  tasks:
-    - name: Gather minimal facts (ansible.builtin.setup)
+  pre_tasks:
+    - name: Gather minimal facts (no real facts)
       ansible.builtin.setup:
-        gather_subset: "!all"
+        gather_subset:
+          - "!all"
       changed_when: false
 
-    - name: List installed packages (community.general.package_facts)
-      community.general.package_facts:
+  tasks:
+    - name: List installed packages
+      ansible.builtin.package_facts:
       changed_when: false
 
-    - name: List available ciphers (community.crypto.openssl_cipher)
-      community.crypto.openssl_cipher:
-        cipher: aes-256-cbc
-        state: list
+    - name: List available AES‑256‑CBC ciphers via openssl
+      ansible.builtin.shell: "openssl ciphers -v 'AES-256-CBC'"
+      register: cipher_list
       changed_when: false
+
+    - name: Show cipher list
+      ansible.builtin.debug:
+        var: cipher_list.stdout_lines
 
     - name: No‑Op via meta
       meta: noop
 
-    - name: Command no‑op (ansible.builtin.command)
+    - name: Command no‑op
       ansible.builtin.command: /bin/true
       changed_when: false
 
-    - name: Shell no‑op (ansible.builtin.shell)
+    - name: Shell no‑op
       ansible.builtin.shell: |
         :
       changed_when: false
 
-    - name: Debug message (ansible.builtin.debug)
+    - name: Final debug message
       ansible.builtin.debug:
         msg: "No‑op tasks complete – metrics only"
+
 
